@@ -6,8 +6,8 @@ matplotlib.use("Agg")  # GUI-freies Backend
 import matplotlib.pyplot as plt
 
 def plot_multiple_tod_csv_from_folder(folder_path, legends, output_png="wegmessung_plot.png"):
-    # Alle CSV-Dateien im Ordner sammeln
-    filenames = [os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.lower().endswith(".csv")]
+    # Alle CSV-Dateien im Ordner sammeln und alphabetisch sortieren
+    filenames = sorted([os.path.join(folder_path, f) for f in os.listdir(folder_path) if f.lower().endswith(".csv")])
 
     if len(filenames) != len(legends):
         raise ValueError("Anzahl der Legenden muss gleich der Anzahl der CSV-Dateien im Ordner sein.")
@@ -25,12 +25,10 @@ def plot_multiple_tod_csv_from_folder(folder_path, legends, output_png="wegmessu
                     continue
 
                 timestamp_str = row[0].replace("TOD#", "").strip()
-
                 if "." not in timestamp_str:
                     timestamp_str += ".000"
 
                 value = float(row[1].replace(",", "."))
-
                 t = datetime.datetime.strptime(timestamp_str, "%H:%M:%S.%f")
 
                 times.append(t)
@@ -40,17 +38,20 @@ def plot_multiple_tod_csv_from_folder(folder_path, legends, output_png="wegmessu
         t0 = times[0]
         seconds = [(t - t0).total_seconds() for t in times]
 
-        plt.plot(seconds, values, label=label)
+        # Normalisierung: alle Graphen starten bei y=0
+        first_value = values[0]
+        values_rel = [v - first_value for v in values]
+
+        plt.plot(seconds, values_rel, label=label)
 
     plt.xlabel("Zeit [s]")
-    plt.ylabel("Weg [mm]")
+    plt.ylabel("Weg [mm] (relativ zum Start)")
     plt.title("Kolbenposition bei Druckbelichtung mit 5% Intensität")
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
     plt.savefig(output_png)
     print(f"Plot gespeichert als {output_png}")
-
 
 # Beispielaufruf
 folder = r".\data\01"  # Pfad zum Ordner mit den CSV-Dateien
