@@ -36,8 +36,8 @@ def plot_tod_csv(filename, output_png="plot.png"):
     plt.figure(figsize=(10, 5))
     plt.plot(seconds, values)
     plt.xlabel("Zeit [s]")
-    plt.ylabel("Wert")
-    plt.title("Plot aus TOD-CSV")
+    plt.ylabel("Weg [mm]")  # Vertikale Achse angepasst
+    plt.title("Kolbenposition bei Druckbelichtung mit 5% Intensität")  # Titel angepasst
     plt.grid(True)
     plt.tight_layout()
 
