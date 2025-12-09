@@ -46,7 +46,7 @@ def plot_multiple_tod_csv_from_folder(folder_path, legends, output_png="wegmessu
 
     plt.xlabel("Zeit [s]")
     plt.ylabel("Weg [mm] (relativ zum Start)")
-    plt.title("Kolbenposition bei Druckbelichtung mit 5% Intensität")
+    plt.title("Kolbenposition bei 2. Druckbelichtung mit 80% Intensität und 4 bar")
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
@@ -54,12 +54,12 @@ def plot_multiple_tod_csv_from_folder(folder_path, legends, output_png="wegmessu
     print(f"Plot gespeichert als {output_png}")
 
 # Beispielaufruf
-folder = r".\data\01"  # Pfad zum Ordner mit den CSV-Dateien
+folder = r".\data\02"  # Pfad zum Ordner mit den CSV-Dateien
 legends = [
-        "0.5 bar",
-        "0 bar",
-        "1 bar",
-        "0.25 bar"
+        "0.5 bar im ersten Schritt",
+        "0 bar im ersten Schritt",
+        "1 bar im ersten Schritt",
+        "0.25 bar im ersten Schritt"
         # ... usw.
 ]
 plot_multiple_tod_csv_from_folder(folder, legends)
