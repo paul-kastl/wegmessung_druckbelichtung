@@ -1,8 +1,10 @@
 import csv
 import datetime
+import matplotlib
+matplotlib.use("Agg")  # GUI-freies Backend
 import matplotlib.pyplot as plt
 
-def plot_tod_csv(filename):
+def plot_tod_csv(filename, output_png="plot.png"):
     times = []
     values = []
 
@@ -14,7 +16,7 @@ def plot_tod_csv(filename):
 
             timestamp_str = row[0].replace("TOD#", "").strip()
 
-            # Millisekunden ergänzen wenn sie fehlen
+            # Millisekunden ergänzen, falls sie fehlen
             if "." not in timestamp_str:
                 timestamp_str += ".000"
 
@@ -26,11 +28,11 @@ def plot_tod_csv(filename):
             times.append(t)
             values.append(value)
 
-    # 👉 Zeiten in Sekunden umrechnen
+    # Zeiten in Sekunden umrechnen
     t0 = times[0]
     seconds = [(t - t0).total_seconds() for t in times]
 
-    # Plot
+    # Plot erstellen
     plt.figure(figsize=(10, 5))
     plt.plot(seconds, values)
     plt.xlabel("Zeit [s]")
@@ -38,7 +40,10 @@ def plot_tod_csv(filename):
     plt.title("Plot aus TOD-CSV")
     plt.grid(True)
     plt.tight_layout()
-    plt.show()
 
+    # Direkt als PNG speichern
+    plt.savefig(output_png)
+    print(f"Plot gespeichert als {output_png}")
 
-plot_tod_csv(r".\data\2025-12-08-16_46_44_Wegmessung.csv")
+# Beispielaufruf
+plot_tod_csv(r".\data\2025-12-08-16_46_44_Wegmessung.csv", "wegmessung_plot.png")
