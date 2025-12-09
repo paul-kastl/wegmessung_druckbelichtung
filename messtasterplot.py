@@ -41,4 +41,4 @@ def plot_tod_csv(filename):
     plt.show()
 
 
-plot_tod_csv(r"C:\Users\Beckhoff\Documents\Versuche\Druckbelichtung_Wegmessung\2025-12-08-16_46_44_Wegmessung.csv")
+plot_tod_csv(r".\data\2025-12-08-16_46_44_Wegmessung.csv")
